@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use app\models\User;
 
 /**
  * LoginForm is the model behind the login form.
@@ -13,7 +14,8 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public $username;
+    // public $username;
+    public $email;
     public $password;
     public $rememberMe = true;
 
@@ -27,7 +29,9 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            // [['username', 'password'], 'required'],
+            [['password'], 'required'],
+            [['email'], 'email'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -73,7 +77,8 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            // $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByEmail($this->email);
         }
 
         return $this->_user;

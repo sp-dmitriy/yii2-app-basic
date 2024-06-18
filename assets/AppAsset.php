@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'https://sso-forms-prod.cdn-tinkoff.ru/tinkoff-id/widget.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

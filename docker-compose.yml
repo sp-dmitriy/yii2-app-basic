@@ -1,9 +1,41 @@
 version: '2'
 services:
   php:
+    container_name: yii-tid
     image: yiisoftware/yii2-php:7.4-apache
     volumes:
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       - ./:/app:delegated
     ports:
-      - '8000:80'
+      - '80:80'
+
+  db:
+    container_name: postgres-tid
+    image: dockerhub.timeweb.cloud/postgres:14.8-alpine3.18
+    volumes:
+      - aviadb-data:/var/lib/postgresql/data
+    restart: always 
+    environment:
+      POSTGRES_DB: "tid-db"
+      POSTGRES_USER: "tid-user"
+      POSTGRES_PASSWORD: BYiaGewrEFLgnij
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+      container_name: pgadmin-tid
+      image: dockerhub.timeweb.cloud/dpage/pgadmin4
+      volumes:
+        - pgadmin-data:/var/lib/pgadmin
+      restart: unless-stopped
+      environment:
+        PGADMIN_DEFAULT_EMAIL: "pgadmin@avia-front.com"
+        PGADMIN_DEFAULT_PASSWORD: "123456789"
+        PGADMIN_CONFIG_SERVER_MODE: "False"
+      ports:
+        - "5050:80"
+
+volumes:
+  aviadb-data:
+  pgadmin-data:
